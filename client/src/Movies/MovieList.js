@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {Route, Link, NavLink} from 'react-router-dom'
 
-const MovieList = props => {
+import MovieCard from './MovieCard'
+
+// Component MovieList
+function MovieList(props) {
   const [movies, setMovies] = useState([])
+  const MOVIE_DETAIL_PATH = 'movie'
+
   useEffect(() => {
     const getMovies = () => {
       axios
@@ -20,33 +26,37 @@ const MovieList = props => {
   
   return (
     <div className="movie-list">
-      {movies.map(movie => (
-        <MovieDetails key={movie.id} movie={movie} />
+      {movies.map(item => (
+        <NavLink to={`/${MOVIE_DETAIL_PATH}/${item.id}`}>
+          <MovieCard key={item.id} movie={item} />
+        </NavLink>
       ))}
     </div>
   );
 }
 
-function MovieDetails({ movie }) {
-  const { title, director, metascore, stars } = movie;
-  return (
-    <div className="movie-card">
-      <h2>{title}</h2>
-      <div className="movie-director">
-        Director: <em>{director}</em>
-      </div>
-      <div className="movie-metascore">
-        Metascore: <strong>{metascore}</strong>
-      </div>
-      <h3>Actors</h3>
+// component MovieDetails
+// function MovieDetails({ movie }) {
+//   const { title, director, metascore, stars } = movie;
 
-      {stars.map(star => (
-        <div key={star} className="movie-star">
-          {star}
-        </div>
-      ))}
-    </div>
-  );
-}
+//   return (
+//     <div className="movie-card">
+//       <h2>{title}</h2>
+//       <div className="movie-director">
+//         Director: <em>{director}</em>
+//       </div>
+//       <div className="movie-metascore">
+//         Metascore: <strong>{metascore}</strong>
+//       </div>
+//       <h3>Actors</h3>
+
+//       {stars.map(star => (
+//         <div key={star} className="movie-star">
+//           {star}
+//         </div>
+//       ))}
+//     </div>
+//   );
+// }
 
 export default MovieList;
